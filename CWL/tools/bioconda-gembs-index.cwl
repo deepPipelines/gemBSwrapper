@@ -6,8 +6,10 @@
 cwlVersion: v1.0
 
 requirements:
+  - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
-    listing: input
+    listing: 
+      - $( inputs.input )
 
 hints:
   - class: ResourceRequirement
@@ -27,20 +29,22 @@ doc: |
 inputs:
   
   input:
-    type: string
-
+    type: File
     doc: Path to a single fasta reference genome file.
     inputBinding:
-      prefix: --input 
+      position: 5
+      prefix: --input
+      valueFrom: $(self.basename)
 
   threads:
     type: ["null", string]
     doc: Number of threads. By default GEM indexer will use the maximum available on the system.
     inputBinding:
+      position: 5
       prefix: --threads 
 
 
-outputs:
+outputs: 
   gemBSreference:
     type: File
     outputBinding:
